@@ -1,0 +1,878 @@
+<?xml version="1.0"?>
+<component>
+
+<registration
+	description="anclCalendar"
+	progid=" anclCalendar.WSC"
+	version="1.00"
+	classid="{e56afaa0-4a20-11d5-9dfb-0020183c3dec}"
+>
+</registration>
+<?component error="true" debug="true"?>
+
+<public>
+	<property name="anclDate">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclFirstDayOfWeek">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclMonthName">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclMonthAbbr">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclDisplayMonthLongName">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclDayName">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclDayAbbr">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclDisplayDayLongName">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclEmptyCellStyle">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclCellStyle">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclSelectedCellStyle">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclWeekDayStyle">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclMonthAndYearStyle">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclMonthStyle">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclYearStyle">
+		<get/>
+		<put/>
+	</property>
+
+	<property name="anclListStyle">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclListCellStyle">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclTableBGColor">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclTableBorder">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclTableCellSpacing">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclTableCellPadding">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclFormName">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclActionURL">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclListPosition">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclMonthPosition">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclYearPosition">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclMonthAndYearPosition">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclYearRange">
+		<get/>
+		<put/>
+	</property>
+	<property name="anclErrorNumber">
+		<get/>
+	</property>
+	<property name="anclErrorDescription">
+		<get/>
+	</property>
+	<method name="displayCalendar"/>
+	
+</public>
+	
+<implements type="ASP" /> 
+
+<resource id="-3">Invalid value passed to anclDate : default value is used.</resource>
+<resource id="-4">Invalid value passed to anclFirstDayOfWeek : default value is used.</resource>
+<resource id="-5">Invalid value passed to anclMonthName : default value is used.</resource>
+<resource id="-6">Invalid value passed to anclMonthAbbr : default value is used.</resource>
+<resource id="-7">Invalid value passed to anclDisplayMonthLongName : default value is used.</resource>
+<resource id="-8">Invalid value passed to anclDayName : default value is used.</resource>
+<resource id="-9">Invalid value passed to anclDayAbbr : default value is used.</resource>
+<resource id="-10">Invalid value passed to anclDisplayDayLongName : default value is used.</resource>
+<resource id="-11">Invalid value passed to anclTableBorder : default value is used.</resource>
+<resource id="-12">Invalid value passed to anclTableCellSpacing : default value is used.</resource>
+<resource id="-13">Invalid value passed to anclTableCellPadding : default value is used.</resource>
+<resource id="-14">Invalid value passed to anclYearPosition : default value is used.</resource>
+<resource id="-15">Invalid value passed to anclMonthPosition : default value is used.</resource>
+<resource id="-16">Invalid value passed to anclMonthAndYearPosition : default value is used.</resource>
+<resource id="-17">Invalid value passed to anclListPosition : default value is used.</resource>
+
+<resource id="-18">Invalid value passed to anclYearRange : default value is used.</resource>
+
+<script language="VBScript">
+<![CDATA[
+option explicit
+
+' ############################
+' ###  Properties declaration
+' ############################
+Dim anclDate, anclFirstDayOfWeek
+Dim anclMonthName, anclMonthAbbr, anclDisplayMonthLongName, anclDayName, anclDayAbbr, anclDisplayDayLongName
+Dim anclEmptyCellStyle, anclCellStyle, anclCellStyle1, anclSelectedCellStyle, anclSelectedCellStyle1
+Dim anclWeekDayStyle, anclMonthAndYearStyle, anclMonthStyle, anclYearStyle, anclListStyle, anclListCellStyle
+Dim anclTableBorder, anclTableBGColor, anclTableCellSpacing, anclTableCellPadding
+Dim anclYearRange
+Dim anclFormName, anclActionURL
+Dim anclListPosition, anclMonthAndYearPosition, anclMonthPosition, anclYearPosition
+Dim anclErrorNumber, anclErrorDescription
+
+' ############################
+' ###  Properties default values
+' ############################
+anclDate = date()
+anclFirstDayOfWeek = vbSunday
+anclMonthName = Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+anclMonthAbbr = Array("Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec.")
+anclDisplayMonthLongName = 1
+anclDayName = Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+anclDayAbbr = Array("S", "M", "T", "W", "T", "F", "S")
+anclDisplayDayLongName = 0
+anclEmptyCellStyle = "font-family: Arial; font-size: 12px; color: #DAE7F3; background-color: #C9DBEB;"
+anclCellStyle = "font-family: Arial; font-size: 12px; color: #885B3B; background-color: #DAE7F3; text-decoration : none;"
+anclSelectedCellStyle = "font-family: Arial; font-size: 12px; color: #0000ff; background-color: #DAE7F3; font-weight: Bold; text-decoration : none;"
+anclCellStyle1 = "font-family: Arial; font-size: 12px; color: #FFFFFF; background-color: #FF7979; text-decoration : none;"
+anclSelectedCellStyle1 = "font-family: Arial; font-size: 12px; color: #ff0000; background-color: #DAE7F3; font-weight: Bold; text-decoration : none;"
+anclWeekDayStyle = "font-weight: Bold; font-family: Arial; font-size: 12px; color: #DAE7F3; background-color: #A5C3D2;"
+anclMonthAndYearStyle = "font-family: Arial; font-size: 12px; color: #A5C3D2; background-color: #5F8AB1; font-weight: Bold;"
+anclMonthStyle = "font-family: Arial; font-size: 12px; color: #CBDDE6; background-color: #4987BB; font-weight: Bold;"
+anclYearStyle = "font-family: Arial; font-size: 12px; color: #CBDDE6; background-color: #4987BB; font-weight: Bold;"
+anclListStyle = "color : #DAE7F3; font-size : 10px; background-color: #7BA0BF;"
+anclListCellStyle = "color : #C9DBEB; font-size : 10px; background-color: #4987BB;"
+anclTableBGColor = "#096292"
+anclTableBorder = 0
+anclTableCellSpacing = 0
+anclTableCellPadding = 3
+anclFormName = "myLittleCalendar"
+anclActionURL = ""
+anclYearRange = 10
+anclListPosition = "Top"
+anclMonthAndYearPosition = "Bottom"
+anclMonthPosition = "Hidden"
+anclYearPosition = "Hidden"
+anclErrorNumber = 0
+anclErrorDescription = ""
+
+' ############################
+' ###  Properties get/set functions
+' ############################
+Function get_anclDate()
+	get_anclDate = anclDate
+End Function
+
+Function put_anclDate(pValue)
+	If isDate(pValue) Then
+		anclDate = pValue
+	Else
+		anclErrorNumber = -3
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclFirstDayOfWeek()
+	get_anclFirstDayOfWeek = anclFirstDayOfWeek
+End Function
+
+Function put_anclFirstDayOfWeek(pValue)
+	If isNumeric(pValue) Then
+		If pValue > 0 AND pValue < 8 Then
+			anclFirstDayOfWeek = pValue
+		Else
+			anclErrorNumber = -4
+			anclErrorDescription = getResource(anclErrorNumber)
+		End If
+	Else
+		anclErrorNumber = -4
+		anclErrorDescription = getResource(anclErrorNumber)
+
+	End If
+End Function
+
+Function get_anclMonthName()
+	get_anclMonthName = anclMonthName
+End Function
+
+Function put_anclMonthName(pValue)
+Dim myArray
+	myArray = Split(pValue, ",")
+	If Ubound(myArray, 1) = 11 Then
+		anclMonthName = myArray
+	Else
+		anclErrorNumber = -5
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclMonthAbbr()
+	get_anclMonthAbbr = anclMonthAbbr
+End Function
+
+Function put_anclMonthAbbr(pValue)
+Dim myArray
+	myArray = Split(pValue, ",")
+	If Ubound(myArray, 1) = 11 Then
+		anclMonthAbbr = myArray
+	Else
+		anclErrorNumber = -6
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclDisplayMonthLongName()
+	get_anclDisplayMonthLongName = anclDisplayMonthLongName
+End Function
+
+Function put_anclDisplayMonthLongName(pValue)
+	If isNumeric(pValue) Then
+		anclDisplayMonthLongName = pValue
+	Else
+		anclErrorNumber = -7
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclDayName()
+	get_anclDayName = anclDayName
+End Function
+
+Function put_anclDayName(pValue)
+Dim myArray
+	myArray = Split(pValue, ",")
+	If Ubound(myArray, 1) = 6 Then
+		anclDayName = myArray
+	Else
+		anclErrorNumber = -8
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclDayAbbr()
+	get_anclDayAbbr = anclDayAbbr
+End Function
+
+Function put_anclDayAbbr(pValue)
+Dim myArray
+	myArray = Split(pValue, ",")
+	If Ubound(myArray, 1) = 6 Then
+		anclDayAbbr = myArray
+	Else
+
+		anclErrorNumber = -9
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclDisplayDayLongName()
+	get_anclDisplayDayLongName = anclDisplayDayLongName
+End Function
+
+Function put_anclDisplayDayLongName(pValue)
+	If isNumeric(pValue) Then
+		anclDisplayDayLongName = pValue
+	Else
+		anclErrorNumber = -10
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclEmptyCellStyle()
+	get_anclEmptyCellStyle = anclEmptyCellStyle
+End Function
+
+Function put_anclEmptyCellStyle(pValue)
+	anclEmptyCellStyle = pValue
+End Function
+
+Function get_anclCellStyle()
+	get_anclCellStyle = anclCellStyle
+End Function
+
+Function put_anclCellStyle(pValue)
+	anclCellStyle = pValue
+End Function
+
+Function get_anclSelectedCellStyle()
+	get_anclSelectedCellStyle = anclSelectedCellStyle
+End Function
+
+Function put_anclSelectedCellStyle(pValue)
+	anclSelectedCellStyle = pValue
+End Function
+
+Function get_anclWeekDayStyle()
+	get_anclWeekDayStyle = anclWeekDayStyle
+End Function
+
+Function put_anclWeekDayStyle(pValue)
+	anclWeekDayStyle = pValue
+End Function
+
+Function get_anclMonthAndYearStyle()
+	get_anclMonthAndYearStyle = anclMonthAndYearStyle
+End Function
+
+Function put_anclMonthAndYearStyle(pValue)
+	anclMonthAndYearStyle = pValue
+End Function
+
+Function get_anclMonthStyle()
+	get_anclMonthStyle = anclMonthStyle
+End Function
+
+Function put_anclMonthStyle(pValue)
+	anclMonthStyle = pValue
+End Function
+
+Function get_anclYearStyle()
+	get_anclYearStyle = anclYearStyle
+End Function
+
+Function put_anclYearStyle(pValue)
+	anclYearStyle = pValue
+End Function
+
+Function get_anclListStyle()
+	get_anclListStyle = anclListStyle
+End Function
+
+Function put_anclListStyle(pValue)
+	anclListStyle = pValue
+End Function
+
+Function get_anclListCellStyle()
+	get_anclListCellStyle = anclListCellStyle
+End Function
+
+Function put_anclListCellStyle(pValue)
+	anclListCellStyle = pValue
+End Function
+
+Function get_anclTableBorder()
+	get_anclTableBorder = anclTableBorder
+End Function
+
+Function put_anclTableBorder(pValue)
+	If isNumeric(pValue) Then
+		anclTableBorder = pValue
+	Else
+		anclErrorNumber = -11
+		anclErrorDescription = getResource(anclErrorNumber)
+	End if
+End Function
+
+Function get_anclTableBGColor()
+	get_anclTableBGColor = anclTableBGColor
+End Function
+
+Function put_anclTableBGColor(pValue)
+	anclTableBGColor = pValue
+End Function
+
+Function get_anclTableCellSpacing()
+	get_anclTableCellSpacing = anclTableCellSpacing
+End Function
+
+Function put_anclTableCellSpacing(pValue)
+	If isNumeric(pValue) Then
+		anclTableCellSpacing = pValue
+	Else
+		anclErrorNumber = -12
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclTableCellPadding()
+	get_anclTableCellPadding = anclTableCellPadding
+End Function
+
+Function put_anclTableCellPadding(pValue)
+	If isNumeric(pValue) Then
+		anclTableCellPadding = pValue
+	Else
+		anclErrorNumber = -13
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclFormName()
+	get_anclFormName = anclFormName
+End Function
+
+Function put_anclFormName(pValue)
+	anclFormName = pValue
+End Function
+
+Function get_anclActionURL()
+	get_anclActionURL = anclActionURL
+End Function
+
+Function put_anclActionURL(pValue)
+	anclActionURL = pValue
+End Function
+
+Function get_anclListPosition()
+	get_anclListPosition = anclListPosition
+End Function
+
+Function put_anclListPosition(pValue)
+	If pValue = "Top" OR pValue = "Bottom" OR pValue = "Hidden" Then
+		anclListPosition = pValue
+	Else
+		anclErrorNumber = -16
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclMonthAndYearPosition()
+	get_anclMonthAndYearPosition = anclMonthAndYearPosition
+End Function
+
+Function put_anclMonthAndYearPosition(pValue)
+	If pValue = "Top" OR pValue = "Bottom" OR pValue = "Hidden" Then
+		anclMonthAndYearPosition = pValue
+	Else
+		anclErrorNumber = -16
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclMonthPosition()
+	get_anclMonthPosition = anclMonthPosition
+End Function
+
+Function put_anclMonthPosition(pValue)
+	If pValue = "Top" OR pValue = "Bottom" OR pValue = "Hidden" Then
+		anclMonthPosition = pValue
+	Else
+		anclErrorNumber = -15
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+
+End Function
+
+Function get_anclYearPosition()
+	get_anclYearPosition = anclYearPosition
+End Function
+
+Function put_anclYearPosition(pValue)
+	If pValue = "Top" OR pValue = "Bottom" OR pValue = "Hidden" Then
+		anclYearPosition = pValue
+	Else
+		anclErrorNumber = -14
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclYearRange()
+	get_anclYearRange = anclYearRange
+End Function
+
+Function put_anclYearRange(pValue)
+	If isNumeric(pValue) Then
+		anclYearRange = CInt(pValue)
+	Else
+		anclErrorNumber = -18
+		anclErrorDescription = getResource(anclErrorNumber)
+	End If
+End Function
+
+Function get_anclErrorNumber()
+	get_anclErrorNumber = anclErrorNumber
+End Function
+
+Function get_anclErrorDescription()
+	get_anclErrorDescription = anclErrorDescription
+End Function
+
+' ############################
+' ###  Display functions
+' ############################
+' =================================
+' writes JavaScript function
+' =================================
+Function displayJavaScript()
+Dim myJSstr
+	myJSstr = "<SCRIPT LANGUAGE=""JavaScript"">" & vbCrlf & "<!--" & vbCrlf
+	myJSstr = myJSstr & "function ancl_setdate(pYear, pMonth, pDay, pDayChosen)" & vbCrlf & "{" & vbCrlf
+	myJSstr = myJSstr & vbTab & "if (eval(document." & anclFormName & ".anclYearList))" & vbCrlf
+	myJSstr = myJSstr & vbTab & "{" & vbCrlf
+	myJSstr = myJSstr & vbTab & vbTab & "mySelectedIndex = document." & anclFormName & ".anclYearList.selectedIndex;" & vbCrlf
+	myJSstr = myJSstr & vbTab & vbTab & "if (pYear == 0) pYear = document." & anclFormName & ".anclYearList.options[mySelectedIndex].value;" & vbCrlf
+	myJSstr = myJSstr & vbTab & vbTab & "mySelectedIndex = document." & anclFormName & ".anclMonthList.selectedIndex;" & vbCrlf
+	myJSstr = myJSstr & vbTab & vbTab & "if (pMonth == 0) pMonth = document." & anclFormName & ".anclMonthList.options[mySelectedIndex].value;" & vbCrlf
+	myJSstr = myJSstr & vbTab & "}" & vbCrlf
+	myJSstr = myJSstr & vbTab & "document." & anclFormName & ".anclYear.value=pYear;" & vbCrlf
+	myJSstr = myJSstr & vbTab & "document." & anclFormName & ".anclMonth.value=pMonth;" & vbCrlf
+	myJSstr = myJSstr & vbTab & "document." & anclFormName & ".anclDay.value=pDay;" & vbCrlf
+	myJSstr = myJSstr & vbTab & "document." & anclFormName & ".anclDate.value="""";" & vbCrlf
+	myJSstr = myJSstr & vbTab & "if (pDayChosen != undefined) document." & anclFormName & ".anclDayChosen.value=pDayChosen;" & vbCrlf
+	myJSstr = myJSstr & vbTab & "document." & anclFormName & ".submit();" & vbCrlf
+	myJSstr = myJSstr & vbTab & "return(0);" & vbCrlf
+	myJSstr = myJSstr & "}" & vbCrlf & vbCrlf
+	myJSstr = myJSstr & "//-->" & vbCrlf & "<" & "/SCRIPT>" & vbCrlf
+	displayJavaScript = myJSstr
+End Function
+
+' =================================
+' writes List block
+' =================================
+Function displayList()
+Dim myHTMLstr, i, myMonth, myFirstYear, myLastYear
+	myHTMLstr = vbTab & "<TR>" & vbCrlf
+	' Displays Month Box
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD COLSPAN=7 ALIGN=CENTER NOWRAP STYLE=""" & anclListCellStyle & """><SELECT NAME=anclMonthList STYLE=""" & anclListStyle & """ onChange=""ancl_setdate(0, 0, " & Day(anclDate) & "); return false;"">" & vbCrlf
+	For i = 0 To 11
+		If anclDisplayMonthLongName <> 0 Then
+			myMonth = anclMonthName(i)
+		Else
+			myMonth = anclMonthAbbr(i)
+		End If
+		myHTMLstr = myHTMLstr & vbTab & vbTab & vbTab & "<OPTION VALUE=" & i + 1
+		If Month(anclDate) = i + 1 Then
+			myHTMLstr = myHTMLstr & " SELECTED"
+		End If
+		myHTMLstr = myHTMLstr & ">" & myMonth & vbCrlf
+	Next
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "</SELECT>&nbsp;" & vbCrlf
+	' Displays Year Box
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<SELECT NAME=anclYearList STYLE=""" & anclListStyle & """ onChange=""ancl_setdate(0, 0, " & Day(anclDate) & "); return false;"">" & vbCrlf
+	myFirstYear = 2006
+	myLastYear = Year(date())
+	For i = myFirstYear To myLastYear
+		myHTMLstr = myHTMLstr & vbTab & vbTab & vbTab & "<OPTION VALUE=" & i
+		If Year(anclDate) = i Then
+			myHTMLstr = myHTMLstr & " SELECTED"
+		End If
+		myHTMLstr = myHTMLstr & ">" & i & vbCrlf
+	Next
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "</SELECT></TD>" & vbCrlf
+	displayList = myHTMLstr
+End Function
+
+' =================================
+' writes monthAndYear block
+' =================================
+Function displayMonthAndYear()
+Dim myHTMLstr, myDate, myLinkDate, i, myMonth
+	myHTMLstr = vbTab & "<TR>" & vbCrlf
+	myDate = DateAdd("m", -1, anclDate)
+	myLinkDate = "ancl_setdate(" & Year(myDate) & ", " & Month(myDate) & ", " & Day(myDate) & "); return false;"
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER STYLE=""" & anclMonthAndYearStyle & """><A HREF=# onclick=""" & myLinkDate & """ STYLE=""" & anclMonthAndYearStyle & """><FONT STYLE=""text-decoration: none;"">&lt;&lt;</FONT></A></TD>" & vbCrlf
+	If anclDisplayMonthLongName <> 0 Then
+		myMonth = anclMonthName(Month(anclDate)-1)
+	Else
+		myMonth = anclMonthAbbr(Month(anclDate)-1)
+	End If
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD COLSPAN=5 ALIGN=CENTER STYLE=""" & anclMonthAndYearStyle & """><FONT STYLE=""" & anclMonthAndYearStyle & """>" & myMonth & " " & Year(anclDate) & "</FONT></TD>" & vbCrlf
+	myDate = DateAdd("m", 1, anclDate)
+	myLinkDate = "ancl_setdate(" & Year(myDate) & ", " & Month(myDate) & ", " & Day(myDate) & "); return false;"
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER STYLE=""" & anclMonthAndYearStyle & """><A HREF=# onclick=""" & myLinkDate & """ STYLE=""" & anclMonthAndYearStyle & """><FONT STYLE=""text-decoration: none;"">&gt;&gt;</FONT></TD>" & vbCrlf
+	myHTMLstr = myHTMLstr & vbTab & "</TR>" & vbCrlf
+	displayMonthAndYear = myHTMLstr
+End Function
+
+' =================================
+' writes monthName block
+' =================================
+Function displayMonth()
+Dim myHTMLstr, myDate, myLinkDate, i, myMonth
+	myHTMLstr = vbTab & "<TR>" & vbCrlf
+	myDate = DateAdd("m", -1, anclDate)
+	myLinkDate = "ancl_setdate(" & Year(myDate) & ", " & Month(myDate) & ", " & Day(myDate) & "); return false;"
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER STYLE=""" & anclMonthStyle & """><A HREF=# onclick=""" & myLinkDate & """ STYLE=""" & anclMonthStyle & """><FONT STYLE=""text-decoration: none;"">&lt;</FONT></A></TD>" & vbCrlf
+	If anclDisplayMonthLongName <> 0 Then
+		myMonth = anclMonthName(Month(anclDate)-1)
+	Else
+		myMonth = anclMonthAbbr(Month(anclDate)-1)
+	End If
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD COLSPAN=5 ALIGN=CENTER STYLE=""" & anclMonthStyle & """><FONT STYLE=""" & anclMonthStyle & """>" & myMonth & "</FONT></TD>" & vbCrlf
+	myDate = DateAdd("m", 1, anclDate)
+	myLinkDate = "ancl_setdate(" & Year(myDate) & ", " & Month(myDate) & ", " & Day(myDate) & "); return false;"
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER STYLE=""" & anclMonthStyle & """><A HREF=# onclick=""" & myLinkDate & """ STYLE=""" & anclMonthStyle & """><FONT STYLE=""text-decoration: none;"">&gt;</FONT></TD>" & vbCrlf
+	myHTMLstr = myHTMLstr & vbTab & "</TR>" & vbCrlf
+	displayMonth = myHTMLstr
+End Function
+
+' =================================
+' writes year block
+' =================================
+Function displayYear()
+Dim myHTMLstr, myDate, myLinkDate
+	myHTMLstr = myHTMLstr & vbTab & "<TR>" & vbCrlf
+	myDate = DateAdd("yyyy", -1, anclDate)
+	myLinkDate = "ancl_setdate(" & Year(myDate) & ", " & Month(myDate) & ", " & Day(myDate) & "); return false;"
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER STYLE=""" & anclYearStyle & """><A HREF=# onclick=""" & myLinkDate & """ STYLE=""" & anclMonthStyle & """><FONT STYLE=""text-decoration: none;"">&lt;</FONT></TD>" & vbCrlf
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER COLSPAN=5 STYLE=""" & anclYearStyle & """><FONT STYLE=""" & anclYearStyle & """>" & Year(anclDate) & "</FONT></TD>" & vbCrlf
+	myDate = DateAdd("yyyy", 1, anclDate)
+	myLinkDate = "ancl_setdate(" & Year(myDate) & ", " & Month(myDate) & ", " & Day(myDate) & "); return false;"
+	myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER STYLE=""" & anclYearStyle & """><A HREF=# onclick=""" & myLinkDate & """ STYLE=""" & anclYearStyle & """><FONT STYLE=""text-decoration: none;"">&gt;</FONT></TD>" & vbCrlf
+	myHTMLstr = myHTMLstr & vbTab & "</TR>" & vbCrlf
+	displayYear = myHTMLstr
+End Function
+
+' =================================
+' writes weekday block
+' =================================
+Function displayWeekDayName
+Dim myHTMLstr, myWeekDay, i
+	myHTMLstr = myHTMLstr & vbTab & "<TR>" & vbCrlf
+	For i = 0 To 6
+		If anclDisplayDayLongName <> 0 Then
+			myWeekDay = anclDayName((i + anclFirstDayOfWeek - 1) MOD 7)
+		Else
+			myWeekDay = anclDayAbbr((i + anclFirstDayOfWeek - 1) MOD 7)
+		End If
+		myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & anclWeekDayStyle & """><FONT STYLE=""" & anclWeekDayStyle & """>" & myWeekDay & "</FONT></TD>" & vbCrlf
+	Next
+	myHTMLstr = myHTMLstr & vbTab & "</TR>" & vbCrlf
+	displayWeekDayName = myHTMLstr
+End Function
+
+' =================================
+' writes complete calendar
+' =================================
+Function displayCalendar()
+Dim myHTMLstr, wwwr
+Dim myFirstDay, myLastDay, myDayCount
+Dim myLink, myLinkDate, myDate, myMonth, fsDate
+Dim myCellStyle, endcont, wwwr1,wwwr2,wwwr3, fsDatenew,fsDateneww,fsDatenewww,wwwrn,endcontn,fieldsection
+Dim i, myFlag
+	' Initializes
+	myFirstDay = CDate(Year(anclDate) & "/" & Month(anclDate) & "/01")
+	myLastDay = CDate(DateAdd("m", 1, myFirstDay))
+	myLastDay = DateAdd("d", -1, myLastDay)
+	myDayCount = Day(myLastDay)
+	' Prepares Form and Table
+	myHTMLstr = displayJavaScript()
+	myHTMLstr = myHTMLstr & "<FORM NAME=""" & anclFormName & """ METHOD=POST ACTION=""" & anclActionURL & """>" & vbCrlf
+	myHTMLstr = myHTMLstr & "<INPUT TYPE=""hidden"" NAME=anclYear VALUE=""" & Year(anclDate) & """>" & vbCrlf
+	myHTMLstr = myHTMLstr & "<INPUT TYPE=""hidden"" NAME=anclMonth VALUE=""" & Month(anclDate) & """>" & vbCrlf
+	myHTMLstr = myHTMLstr & "<INPUT TYPE=""hidden"" NAME=anclDay VALUE=""" & Day(anclDate) & """>" & vbCrlf
+	myHTMLstr = myHTMLstr & "<INPUT TYPE=""hidden"" NAME=anclDate VALUE=""" & anclDate & """>" & vbCrlf
+myHTMLstr = myHTMLstr & "<INPUT TYPE=""hidden"" NAME=anclDayChosen>" & vbCrlf
+	myHTMLstr = myHTMLstr & "<TABLE BORDER=" & anclTableBorder & " CELLSPACING=" & anclTableCellSpacing & " CELLPADDING=" & anclTableCellPadding & " BGCOLOR=" & anclTableBGColor & ">" & vbCrlf
+	' Displays List
+	If anclListPosition = "Top" Then myHTMLstr = myHTMLstr & displayList()
+	' Displays MonthAndYear
+	If anclMonthAndYearPosition = "Top" Then myHTMLstr = myHTMLstr & displayMonthAndYear()
+	' Displays MonthName
+	If anclMonthPosition = "Top" Then myHTMLstr = myHTMLstr & displayMonth()
+	' Displays MonthName
+	If anclYearPosition = "Top" Then myHTMLstr = myHTMLstr & displayYear()
+	' Displays WeekDayName
+	myHTMLstr = myHTMLstr & displayWeekDayName()
+	' Displays necessary empty cells
+	myHTMLstr = myHTMLstr & vbTab & "<TR>" & vbCrlf
+	For i = 1 To WeekDay(myFirstDay, anclFirstDayOfWeek) - 1
+		myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & anclEmptyCellStyle & """>&nbsp;</TD>" & vbCrlf
+	Next
+	' Displays first week
+	For i = WeekDay(myFirstDay, anclFirstDayOfWeek) To 7
+		myDate = DateAdd("d",  i - WeekDay(myFirstDay, anclFirstDayOfWeek), myFirstDay)
+		fsDate=Year(myDate) & "/" & Right(Cstr(Month(myDate) + 100),2) & "/" & Right(Cstr(Day(myDate) + 100),2)
+		anclSelectedCellStyle=anclSelectedCellStyle
+		If i=1 then
+		fsDatenew=Year(myDate) & "/" & Right(Cstr(Month(myDate) + 100),2) & "/" & Right(Cstr(Day(myDate) + 100),2)
+		fsDateneww=Year(myDate) & "-" & Right(Cstr(Month(myDate) + 100),2) & "-" & Right(Cstr(Day(myDate) + 100),2)
+		fsDatenewww=Year(myDate) & "/" & Right(Cstr(Month(myDate) + 100),2) & "/" & Right(Cstr(Day(myDate) + 100),2)
+		
+		    fieldsection="?field_section_tid=All"
+			wwwr="www.sundayobserver.lk"
+			wwwr3="archives.sundayobserver.lk/"
+			wwwr1="archives.sundayobserver.lk/"
+			wwwr2="archives.sundayobserver.lk/"
+			wwwrn="www.sundayobserver.lk/date/"
+			endcontn="/main_Features.asp"
+			
+			myCellStyle=anclSelectedCellStyle1
+			endcont="/main_Features.asp"
+		Else
+		fsDatenew=Year(myDate) & "-" & Right(Cstr(Month(myDate) + 100),2) & "-" & Right(Cstr(Day(myDate) + 100),2)
+		fsDateneww=Year(myDate) & "-" & Right(Cstr(Month(myDate) + 100),2) & "-" & Right(Cstr(Day(myDate) + 100),2)
+		fsDatenewww=Year(myDate) & "/" & Right(Cstr(Month(myDate) + 100),2) & "/" & Right(Cstr(Day(myDate) + 100),2)
+		    fieldsection="?field_section_tid=All"
+			wwwr="archives.dailynews.lk/"
+			wwwr3="archives.dailynews.lk/"
+			wwwr1="dailynews.lk/date/"
+			wwwr2="epaper.dailynews.lk/?tday="
+			wwwrn="dailynews.lk/date/"
+			
+			myCellStyle=anclSelectedCellStyle
+			endcont="/main_Features.asp"
+			endcontn=""
+		End If
+		myLinkDate = "window.open('Http://" & wwwr & fsDate & endcont & "','LakeHouseNewspapers','left=0,top=0,height=screen.Height,width=screen.Width,directories=yes,location=yes,menubar=yes,scrollbars=yes,status=yes,toolbar=yes,resizable=yes'); self.close(); return false;"
+	
+		If (myDate<Date()) and (myDate>DateSerial(2016,10,09)) Then
+			myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & myCellStyle & """><A target=""_parent"" HREF=""http://" & wwwrn & fsDateneww & fieldsection & """ STYLE=""" & myCellStyle & """>" & i - WeekDay(myFirstDay, anclFirstDayOfWeek) + 1 & "</A></TD>" & vbCrlf
+				
+		Elseif (myDate=<DateSerial(2016,10,09)) and (myDate>DateSerial(2015,09,21)) Then
+			
+			myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & myCellStyle & """><A target=""_parent"" HREF=""http://" & wwwr1 & fsDatenew & endcontn &  """ STYLE=""" & myCellStyle & """>" & i - WeekDay(myFirstDay, anclFirstDayOfWeek) + 1 & "</A></TD>" & vbCrlf
+			
+		
+		Elseif (myDate=<DateSerial(2015,09,21)) and (myDate>DateSerial(2013,07,10)) Then
+			myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & myCellStyle & """><A target=""_parent"" HREF=""http://" & wwwr2 & fsDatenewww & endcontn & """ STYLE=""" & myCellStyle & """>" & i - WeekDay(myFirstDay, anclFirstDayOfWeek) + 1 & "</A></TD>" & vbCrlf
+				
+	
+		
+		
+		Elseif (myDate=<DateSerial(2013,07,10)) and (myDate>DateSerial(2006,02,07)) Then
+			myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & myCellStyle & """><A target=""_parent"" HREF=""http://" & wwwr3 & fsDate & endcont & """ STYLE=""" & myCellStyle & """>" & i - WeekDay(myFirstDay, anclFirstDayOfWeek) + 1 & "</A></TD>" & vbCrlf
+				
+		
+		Else
+			myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & anclCellStyle & """>" & i - WeekDay(myFirstDay, anclFirstDayOfWeek) + i & "</TD>" & vbCrlf
+		End If
+	Next
+	myHTMLstr = myHTMLstr & vbTab & "</TR>" & vbCrlf & vbTab & "<TR>" & vbCrlf
+	' Displays all other weeks
+	i = 9 - WeekDay(myFirstDay, anclFirstDayOfWeek)
+	Do While i <= myDayCount
+		myDate = DateAdd("d",  i - 1, myFirstDay)
+		fsDate=Year(myDate) & "/" & Right(Cstr(Month(myDate) + 100),2) & "/" & Right(Cstr(Day(myDate) + 100),2)
+		anclSelectedCellStyle=anclSelectedCellStyle
+		If (i - 8 + WeekDay(myFirstDay, anclFirstDayOfWeek)) MOD 7 = 1 then
+		fsDateneww=Year(myDate) & "-" & Right(Cstr(Month(myDate) + 100),2) & "-" & Right(Cstr(Day(myDate) + 100),2)
+		fsDatenew=Year(myDate) & "/" & Right(Cstr(Month(myDate) + 100),2) & "/" & Right(Cstr(Day(myDate) + 100),2)
+		fsDatenewww=Year(myDate) & "/" & Right(Cstr(Month(myDate) + 100),2) & "/" & Right(Cstr(Day(myDate) + 100),2)
+			wwwr="www.sundayobserver.lk/"
+			wwwr3="archives.sundayobserver.lk/"
+			wwwr1="archives.sundayobserver.lk/"
+			wwwr2="archives.sundayobserver.lk/"
+			wwwrn="www.sundayobserver.lk/date/"
+			endcontn="/main_Features.asp"
+			fieldsection="?field_section_tid=All"
+			
+			myCellStyle=anclSelectedCellStyle1
+			endcont="/main_Features.asp"
+		Else
+		fsDatenew=Year(myDate) & "-" & Right(Cstr(Month(myDate) + 100),2) & "-" & Right(Cstr(Day(myDate) + 100),2)
+		fsDateneww=Year(myDate) & "-" & Right(Cstr(Month(myDate) + 100),2) & "-" & Right(Cstr(Day(myDate) + 100),2)
+		fsDatenewww=Year(myDate) & "/" & Right(Cstr(Month(myDate) + 100),2) & "/" & Right(Cstr(Day(myDate) + 100),2)
+			wwwr="archives.dailynews.lk/"
+			wwwr1="dailynews.lk/date/"
+			wwwr2="epaper.dailynews.lk/?tday="
+			wwwrn="dailynews.lk/date/"
+			wwwr3="archives.dailynews.lk/"
+			fieldsection="?field_section_tid=All"
+			
+			myCellStyle=anclSelectedCellStyle
+			endcont="/main_Features.asp"
+			endcontn=""
+		End If
+		myLinkDate = "window.open('Http://" & wwwr & fsDate & "','LakeHouseNewspapers','left=0,top=0,height=screen.Height,width=screen.Width,directories=yes,location=yes,menubar=yes,scrollbars=yes,status=yes,toolbar=yes,resizable=yes'); self.close(); return false;"
+		
+		If (myDate<Date()) and (myDate>DateSerial(2016,10,09)) Then
+			myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & myCellStyle & """><A target=""_parent"" HREF=""http://" & wwwrn & fsDateneww & fieldsection &""" STYLE=""" & myCellStyle & """>" & i & "</A></TD>" & vbCrlf
+				
+		Elseif (myDate=<DateSerial(2016,10,09)) and (myDate>DateSerial(2015,09,21)) Then
+			
+		myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & myCellStyle & """><A target=""_parent"" HREF=""http://" & wwwr1 & fsDatenew & endcontn & """ STYLE=""" & myCellStyle & """>" &  i & "</A></TD>" & vbCrlf
+			
+			
+			
+			Elseif (myDate=<DateSerial(2015,09,21)) and (myDate>DateSerial(2013,07,10)) Then
+			
+		myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & myCellStyle & """><A target=""_parent"" HREF=""http://" & wwwr2 & fsDatenewww & endcontn & """ STYLE=""" & myCellStyle & """>" &  i & "</A></TD>" & vbCrlf
+				
+		
+		Elseif (myDate=<DateSerial(2013,07,10)) and (myDate>DateSerial(2006,02,07)) Then
+			myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & myCellStyle & """><A target=""_parent"" HREF=""http://" & wwwr3 & fsDate & endcont & """ STYLE=""" & myCellStyle & """>" & i & "</A></TD>" & vbCrlf
+				
+		
+		Else
+			myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER WIDTH=14% STYLE=""" & anclCellStyle & """>" & i & "</TD>" & vbCrlf
+		End IF
+
+		If (i - 8 + WeekDay(myFirstDay, anclFirstDayOfWeek)) MOD 7 = 0 Then
+			myHTMLstr = myHTMLstr & vbTab & "</TR>" & vbCrlf 
+			If i <> myDayCount Then
+				myHTMLstr = myHTMLstr & vbTab & "<TR>" & vbCrlf
+			End If
+		End If
+		i = i + 1
+	Loop
+	' Displays necessary empty cells
+	myFlag = false
+	For i = WeekDay(myLastDay, anclFirstDayOfWeek) + 1 To 7
+		myHTMLstr = myHTMLstr & vbTab & vbTab & "<TD ALIGN=CENTER STYLE=""" & anclEmptyCellStyle & """>&nbsp;</TD>" & vbCrlf
+		myFlag = true
+	Next
+	If myFlag Then
+		myHTMLstr = myHTMLstr & vbTab & "</TR>" & vbCrlf
+	End If
+	' Displays MonthAndYear
+	If anclMonthAndYearPosition = "Bottom" Then myHTMLstr = myHTMLstr & displayMonthAndYear()
+	' Displays MonthName
+	If anclMonthPosition = "Bottom" Then myHTMLstr = myHTMLstr & displayMonth()
+	' Displays MonthName
+	If anclYearPosition = "Bottom" Then myHTMLstr = myHTMLstr & displayYear()
+	' Displays List
+	If anclListPosition = "Bottom" Then myHTMLstr = myHTMLstr & displayList()
+	' Closes Table and Form
+	myHTMLstr = myHTMLstr & "</TABLE>" & vbCrlf & "</FORM>" & vbCrlf
+	' writes HTML stream
+	Response.Write myHTMLstr
+	' Finally returns error number
+	displayCalendar = anclErrorNumber
+End Function
+
+]]>
+</script>
+
+</component>
